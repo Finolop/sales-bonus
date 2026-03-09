@@ -108,7 +108,7 @@ function analyzeSalesData(data, options) {
   });
 
   // @TODO: Сортировка продавцов по прибыли
-  const sortedSellerStats = sellerStats.toSorted((a, b) => {
+  sellerStats.sort((a, b) => {
     if (a.profit < b.profit) {
       return 1;
     } else {
@@ -117,7 +117,7 @@ function analyzeSalesData(data, options) {
   });
 
   // @TODO: Назначение премий на основе ранжирования
-  sortedSellerStats.forEach((seller, index) => {
+  sellerStats.forEach((seller, index) => {
     seller.bonus = calculateBonusByProfit(index, sellerStats.length, seller); // Считаем бонус
     seller.top_products = Object.entries(seller.products_sold)
       .map(([sku, quantity]) => ({ sku, quantity }))
@@ -126,7 +126,7 @@ function analyzeSalesData(data, options) {
   });
 
   // @TODO: Подготовка итоговой коллекции с нужными полями
-  return sortedSellerStats.map((seller) => ({
+  return sellerStats.map((seller) => ({
     seller_id: seller.id, // Строка, идентификатор продавца
     name: seller.name, // Строка, имя продавца
     revenue: +seller.revenue.toFixed(2), // Число с двумя знаками после точки, выручка продавца
